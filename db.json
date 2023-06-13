@@ -1,0 +1,13 @@
+{
+  "ports": [
+    {
+      "id": 1,
+      "port": "Altea",
+      "coordinates": "345345345345345",
+      "address": "avda",
+      "berths": "453",
+      "VHF": "16",
+      "contactNumber": "345663453"
+    }
+  ]
+}
