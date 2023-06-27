@@ -1,7 +1,11 @@
 import { PortInstance } from "../store/slices/ports"
 
-function Port(portInfo: PortInstance) {
-  function convertToDms(dd, isLng) {
+type componentProps = {
+  portInfo: PortInstance
+}
+
+function Port({ portInfo }: componentProps) {
+  function convertToDms(dd: number, isLng: boolean) {
     var dir = dd < 0 ? (isLng ? "W" : "S") : isLng ? "E" : "N"
 
     var absDd = Math.abs(dd)
@@ -13,6 +17,7 @@ function Port(portInfo: PortInstance) {
     sec = Math.round(sec * 100) / 100
     return deg + "°" + min + "'" + sec + '"' + dir
   }
+
   return (
     <div className="flex flex-col  bg-white font-sans shadow-md">
       <div className="h-60 bg-cover bg-center">Port image</div>

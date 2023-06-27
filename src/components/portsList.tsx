@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { fetchPorts } from "../store/thunks/fetchPorts"
-import Port from "./Port"
+import Port from "./port"
 
 function PortsList() {
   const dispatch = useAppDispatch()
