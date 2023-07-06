@@ -1,9 +1,15 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import portsReducer from "./slices/ports"
+import authReducer from "./slices/auth"
+import boatsReducer from "./slices/boats"
+import bookingsReducer from "./slices/bookings"
 
 export const store = configureStore({
   reducer: {
     ports: portsReducer,
+    auth: authReducer,
+    boats: boatsReducer,
+    bookings: bookingsReducer,
   },
 })
 

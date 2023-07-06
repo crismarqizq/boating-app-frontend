@@ -21,7 +21,6 @@ function PortsList() {
         {status === "loading" && <div>Loading...</div>}
         {ports.length &&
           ports.map((port) => <Port key={port._id} portInfo={port}></Port>)}
-        {/* <Port></Port> */}
       </div>
     </div>
   )
