@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { fetchBookings } from "../thunks/fetchBookings"
 
 export interface BookingInstance {
+  id: string
   startDate: Date
   endDate: Date
   port: string
@@ -31,6 +32,7 @@ export const bookingsSlice = createSlice({
         state.status = "idle"
         state.bookings = action.payload.map((booking) => {
           return {
+            id: booking._id,
             startDate: booking.startDate,
             endDate: booking.endDate,
             port: booking.port,

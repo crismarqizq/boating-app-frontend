@@ -5,17 +5,23 @@ export interface PortInstance {
   _id: string
   name: string
   coordinates: number[]
-  address: {
-    street: string
-    postalCode: string
-    city: string
-    country: string
-  }
+  street: string
+  postalCode: string
+  town: string
+  city: string
+  country: string
   berths: number
   VHF: number
   contactNumber: string
   facilities: string[]
   imagePath: string[]
+  weather?: {
+    icon: string
+    main: string
+    temperature: number
+    humidity: number
+    windSpeed: number
+  }
 }
 
 export interface PortsState {

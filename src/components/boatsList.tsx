@@ -67,7 +67,10 @@ function BoatsList({ boatsList }: componentProps) {
               </thead>
               <tbody>
                 {boatsList.map((boat) => (
-                  <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <tr
+                    key={boat.id}
+                    className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                  >
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {boat.name}
                     </td>

@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { fetchBoats } from "../../store/thunks/fetchBoats"
 import BoatsList from "../../components/boatsList"
+import BoatForm from "../../components/boatForm"
 
 function Boats() {
   const dispatch = useAppDispatch()
@@ -23,6 +24,10 @@ function Boats() {
             {status === "failed" && <div>There was an error</div>}
             {status === "loading" && <div>Loading...</div>}
             <BoatsList boatsList={boats}></BoatsList>
+          </div>
+
+          <div className="flex w-11/12 my-10">
+            <BoatForm></BoatForm>
           </div>
         </div>
       </div>

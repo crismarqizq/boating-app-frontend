@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchBoats } from "../thunks/fetchBoats"
+import { createBoat } from "../thunks/createBoat"
 
 export interface BoatInstance {
+  id: string
   name: string
   flag: string
   regNumber: string
-  sail: boolean
+  sail: Boolean
   length: number
   beam: number
   draft: number
@@ -34,6 +36,7 @@ export const boatsSlice = createSlice({
         state.status = "idle"
         state.boats = action.payload.map((boat) => {
           return {
+            id: boat._id,
             name: boat.name,
             flag: boat.flag,
             regNumber: boat.regNumber,
@@ -45,6 +48,28 @@ export const boatsSlice = createSlice({
         })
       })
       .addCase(fetchBoats.rejected, (state) => {
+        state.status = "failed"
+      })
+      .addCase(createBoat.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(createBoat.fulfilled, (state, action) => {
+        state.status = "idle"
+
+        const newBoat = {
+          id: action.payload._id,
+          name: action.payload.name,
+          flag: action.payload.flag,
+          regNumber: action.payload.regNumber,
+          sail: action.payload.sail,
+          length: action.payload.length,
+          beam: action.payload.beam,
+          draft: action.payload.draft,
+        }
+
+        state.boats.push(newBoat)
+      })
+      .addCase(createBoat.rejected, (state) => {
         state.status = "failed"
       })
   },

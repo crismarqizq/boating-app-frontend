@@ -15,7 +15,7 @@ function PortsList() {
   }, [dispatch])
 
   return (
-    <div>
+    <div className="w-full">
       <div className="grid gap-10 grid-cols-3 p-4">
         {status === "failed" && <div>There was an error</div>}
         {status === "loading" && <div>Loading...</div>}

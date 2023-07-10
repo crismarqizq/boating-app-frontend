@@ -1,4 +1,11 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { PortInstance } from "../store/slices/ports"
+import {
+  faDroplet,
+  faTemperatureThreeQuarters,
+  faWind,
+} from "@fortawesome/free-solid-svg-icons"
+import PortFacilities from "./portFacilities"
 
 type componentProps = {
   portInfo: PortInstance
@@ -20,20 +27,81 @@ function Port({ portInfo }: componentProps) {
 
   return (
     <div className="flex flex-col  bg-white font-sans shadow-md">
-      <div className="h-60 bg-cover bg-center">Port image</div>
-      <div>
-        <h2 className="text-darkblue font-bold text-lg">{portInfo.name}</h2>
-        <div className="text-midblue font-thin">
-          <span className="ml-1"></span>{" "}
-          {convertToDms(portInfo.coordinates[0], false)}
-          <span className="ml-1"></span>
-          {convertToDms(portInfo.coordinates[1], true)}
+      <div
+        className="h-60 bg-cover bg-center"
+        style={{ backgroundImage: `url(${portInfo.imagePath})` }}
+      ></div>
+      <div className="flex flex-col h-full justify-between">
+        <div className="p-6">
+          <div className="flex flex-col items-center">
+            <h2 className="text-darkblue font-bold text-lg">{portInfo.name}</h2>
+            <div>
+              <div>
+                <div className="text-midblue font-thin">
+                  <span className="ml-1"></span>{" "}
+                  {convertToDms(portInfo.coordinates[0], false)}
+                  <span className="ml-1"></span>
+                  {convertToDms(portInfo.coordinates[1], true)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex w-full">
+            <div className="flex flex-col w-1/2">
+              <span className="text-midblue font-semibold">Address:</span>
+              <ul className="text-midblue font-thin">
+                <li>{portInfo.street}</li>
+                <li>{portInfo.postalCode}</li>
+                <li>{portInfo.town}</li>
+                <li>{portInfo.city}</li>
+              </ul>
+              <span className="text-midblue font-semibold">
+                Contact Number:
+              </span>
+              <p className="text-midblue font-thin">{portInfo.contactNumber}</p>
+              <span className="text-midblue font-semibold">VHF channel:</span>
+              <p className="text-midblue font-thin">{portInfo.VHF}</p>
+              <span className="text-midblue font-semibold">Berths: </span>
+              <p className="text-midblue font-thin">{portInfo.berths}</p>
+            </div>
+            <div className="flex flex-col justify-end items-end w-1/2">
+              <span className="text-midblue font-semibold"></span>
+              <ul className="text-midblue font-thin">
+                <li>
+                  <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
+                  {portInfo.weather?.temperature} ºC
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faWind} />
+                  {portInfo.weather?.windSpeed}
+                  knots
+                </li>
+                <li>
+                  <FontAwesomeIcon icon={faDroplet} />
+                  <span className="ml-1"></span>
+                  {portInfo.weather?.humidity} %
+                </li>
+                <li> {portInfo.weather?.main}</li>
+                <img
+                  alt="Port Weather icon"
+                  src={`http://openweathermap.org/img/wn/${portInfo.weather?.icon}@2x.png`}
+                  height="60px"
+                  width="60px"
+                />
+              </ul>
+            </div>
+          </div>
+          <div>
+            <span className="text-midblue font-semibold">Facilities</span>
+            <PortFacilities extended={false} facilities={portInfo.facilities} />
+          </div>
+        </div>
+        <div className="justify-self-end">
+          <button className="bg-midgreen text-white text-md p-2 w-full ">
+            Book now
+          </button>
         </div>
       </div>
-      <div className="flex flex-col w-1/2">
-        <span className="text-midblue font-semibold">Address</span>
-      </div>
-      <div className="text-midblue font-semibold">Some other relative info</div>
     </div>
   )
 }

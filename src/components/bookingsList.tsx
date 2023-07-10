@@ -49,7 +49,10 @@ function BookingsList({ bookingsList }: componentProps) {
               </thead>
               <tbody>
                 {bookingsList.map((booking) => (
-                  <tr className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
+                  <tr
+                    key={booking.id}
+                    className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100"
+                  >
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                       {new Date(booking.startDate).toLocaleDateString()}
                     </td>
