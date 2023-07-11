@@ -1,7 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 const colors = require("tailwindcss/colors")
 module.exports = {
-  content: ["./index.html", "./src/**/*.{html,js,jsx,tsx,ts}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{html,js,jsx,tsx,ts}",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+  ],
   theme: {
     colors: {
       transparent: "transparent",
@@ -21,5 +25,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin.cjs")],
 }

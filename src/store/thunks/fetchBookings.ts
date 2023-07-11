@@ -6,8 +6,8 @@ const BASE_URL = "http://localhost:8080"
 type BookingResponse = {
   _id: string
   _v: number
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
   user: string
   boat: string
   port: string

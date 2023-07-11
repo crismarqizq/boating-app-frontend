@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchBookings } from "../thunks/fetchBookings"
+import { createBooking } from "../thunks/createBooking"
 
 export interface BookingInstance {
   id: string
-  startDate: Date
-  endDate: Date
+  startDate: string
+  endDate: string
   port: string
   boat: string
 }
@@ -41,6 +42,28 @@ export const bookingsSlice = createSlice({
         })
       })
       .addCase(fetchBookings.rejected, (state) => {
+        state.status = "failed"
+      })
+
+      .addCase(createBooking.pending, (state) => {
+        state.status = "loading"
+      })
+
+      .addCase(createBooking.fulfilled, (state, action) => {
+        state.status = "idle"
+
+        const newBooking = {
+          id: action.payload._id,
+          startDate: action.payload.startDate,
+          endDate: action.payload.endDate,
+          port: action.payload.port,
+          boat: action.payload.boat,
+        }
+
+        state.bookings.push(newBooking)
+      })
+
+      .addCase(createBooking.rejected, (state) => {
         state.status = "failed"
       })
   },

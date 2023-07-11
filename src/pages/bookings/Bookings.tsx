@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import BookingsList from "../../components/bookingsList"
 import { fetchBookings } from "../../store/thunks/fetchBookings"
+import BookingForm from "../../components/bookingForm"
 
 function Bookings() {
   const dispatch = useAppDispatch()
@@ -21,6 +22,9 @@ function Bookings() {
           {status === "failed" && <div>There was an error</div>}
           {status === "loading" && <div>Loading...</div>}
           <BookingsList bookingsList={bookings}></BookingsList>
+        </div>
+        <div className="flex w-11/12 my-10">
+          <BookingForm></BookingForm>
         </div>
       </div>
     </main>
