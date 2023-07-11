@@ -1,8 +1,5 @@
-import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 
-import { fetchPorts } from "../store/thunks/fetchPorts"
-import { fetchBoats } from "../store/thunks/fetchBoats"
 import { createBooking } from "../store/thunks/createBooking"
 
 function BookingForm() {
@@ -53,11 +50,6 @@ function BookingForm() {
 
     dispatch(createBooking(data))
   }
-
-  useEffect(() => {
-    dispatch(fetchPorts())
-    dispatch(fetchBoats())
-  }, [dispatch])
 
   return (
     <div className="flex justify-center min-w-full">

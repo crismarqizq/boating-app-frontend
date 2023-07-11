@@ -1,18 +1,10 @@
-import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../app/hooks"
-import { fetchPorts } from "../store/thunks/fetchPorts"
+import { useAppSelector } from "../app/hooks"
 import Port from "./port"
 
 function PortsList() {
-  const dispatch = useAppDispatch()
-
   const { ports, status } = useAppSelector((state) => {
     return state.ports
   })
-
-  useEffect(() => {
-    dispatch(fetchPorts())
-  }, [dispatch])
 
   return (
     <div className="w-full">

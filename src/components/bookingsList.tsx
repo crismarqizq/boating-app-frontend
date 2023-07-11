@@ -1,12 +1,46 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { BookingInstance } from "../store/slices/bookings"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
+import { useAppSelector } from "../app/hooks"
 
 type componentProps = {
   bookingsList: BookingInstance[]
 }
 
 function BookingsList({ bookingsList }: componentProps) {
+  const ports = useAppSelector((state) => {
+    return state.ports.ports
+  })
+  const boats = useAppSelector((state) => {
+    return state.boats.boats
+  })
+
+  const resolvePortNameById = (portId: string): string => {
+    const filteredPorts = ports.filter((p) => {
+      return portId === p._id
+    })
+
+    if (!filteredPorts.length) {
+      return portId
+    }
+
+    const port = filteredPorts[0]
+    return port.name
+  }
+
+  const resolveBoatNameById = (boatId: string): string => {
+    const filteredBoats = boats.filter((b) => {
+      return boatId === b.id
+    })
+
+    if (!filteredBoats.length) {
+      return boatId
+    }
+
+    const boat = filteredBoats[0]
+    return boat.name
+  }
+
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -60,10 +94,10 @@ function BookingsList({ bookingsList }: componentProps) {
                       {new Date(booking.endDate).toLocaleDateString()}
                     </td>
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      {booking.port}
+                      {resolvePortNameById(booking.port)}
                     </td>
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                      {booking.boat}
+                      {resolveBoatNameById(booking.boat)}
                     </td>
 
                     <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap flex justify-center">

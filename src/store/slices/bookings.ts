@@ -12,11 +12,11 @@ export interface BookingInstance {
 
 export interface BookingsState {
   bookings: BookingInstance[]
-  status: "idle" | "loading" | "failed"
+  status: "idle" | "loading" | "failed" | "initial"
 }
 
 const initialState: BookingsState = {
-  status: "idle",
+  status: "initial",
   bookings: [],
 }
 

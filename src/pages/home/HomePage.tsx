@@ -7,10 +7,8 @@ import PortsList from "../../components/portsList"
 function HomePage() {
   return (
     <main>
-      <div>
-        <Navbar></Navbar>
-        <PortsList></PortsList>
-      </div>
+      <Navbar></Navbar>
+      <PortsList></PortsList>
     </main>
   )
 }

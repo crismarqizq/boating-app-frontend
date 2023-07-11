@@ -15,11 +15,11 @@ export interface BoatInstance {
 
 export interface BoatsState {
   boats: BoatInstance[]
-  status: "idle" | "loading" | "failed"
+  status: "idle" | "loading" | "failed" | "initial"
 }
 
 const initialState: BoatsState = {
-  status: "idle",
+  status: "initial",
   boats: [],
 }
 

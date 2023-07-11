@@ -10,9 +10,11 @@ export interface AuthInstance {
 export interface AuthState {
   auth: AuthInstance | null
   status: "idle" | "loading" | "failed"
+  isAuthenticated: boolean
 }
 
 const initialState: AuthState = {
+  isAuthenticated: false,
   status: "idle",
   auth: null,
 }
@@ -22,6 +24,7 @@ const authDataString = localStorage.getItem("authData")
 if (authDataString) {
   const authDataObject = JSON.parse(authDataString)
   initialState.status = "idle"
+  initialState.isAuthenticated = true
   initialState.auth = authDataObject
   axios.defaults.headers.common[
     "Authorization"
@@ -39,6 +42,7 @@ export const authSlice = createSlice({
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         state.status = "idle"
+        state.isAuthenticated = true
         state.auth = {
           info: action.payload.info,
           token: { value: action.payload.token.value },

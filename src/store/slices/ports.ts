@@ -26,11 +26,11 @@ export interface PortInstance {
 
 export interface PortsState {
   ports: PortInstance[]
-  status: "idle" | "loading" | "failed"
+  status: "idle" | "loading" | "failed" | "initial"
 }
 
 const initialState: PortsState = {
-  status: "idle",
+  status: "initial",
   ports: [],
 }
 

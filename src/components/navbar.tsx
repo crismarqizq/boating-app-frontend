@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser, faWater } from "@fortawesome/free-solid-svg-icons"
 import { useAppSelector } from "../app/hooks"
+import { Link, useNavigate } from "react-router-dom"
+
 function Navbar() {
+  const navigate = useNavigate()
+
   const { auth, status } = useAppSelector((state) => {
     return state.auth
   })
@@ -24,9 +28,23 @@ function Navbar() {
           className="collapse navbar-collapse flex-grow items-center"
           id="navbarSupportedContent"
         > */}
+        <Link to={"/ports"} className="nav-link" aria-current="page">
+          <span className="text-xl">
+            {" "}
+            <FontAwesomeIcon icon={faWater} />
+          </span>
+        </Link>
         <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
-          <li className="nav-item px-2">Boats</li>
-          <li className="nav-item px-2">Bookings</li>
+          <li className="nav-item px-2">
+            <Link to={"/boats"} className="nav-link " aria-current="page">
+              Boats
+            </Link>
+          </li>
+          <li className="nav-item px-2">
+            <Link to={"/bookings"} className="nav-link" aria-current="page">
+              Bookings
+            </Link>
+          </li>
         </ul>
         <div className="flex justify-center">
           <div>

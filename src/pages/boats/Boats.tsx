@@ -5,15 +5,15 @@ import BoatsList from "../../components/boatsList"
 import BoatForm from "../../components/boatForm"
 
 function Boats() {
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
   const { boats, status } = useAppSelector((state) => {
     return state.boats
   })
 
-  useEffect(() => {
-    dispatch(fetchBoats())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(fetchBoats())
+  // }, [dispatch])
 
   return (
     <main className="w-screen min-h-screen bg-bone pt-10 flex justify-center">

@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../app/hooks"
 import { authenticateUser } from "../store/thunks/authenticateUser"
+import { fetchBoats } from "../store/thunks/fetchBoats"
+import { fetchBookings } from "../store/thunks/fetchBookings"
+import { fetchPorts } from "../store/thunks/fetchPorts"
 function Login() {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault()
 
     const form = event.target
@@ -13,7 +18,22 @@ function Login() {
 
     const data = { email, password }
 
-    dispatch(authenticateUser(data))
+    try {
+      await dispatch(authenticateUser(data))
+
+      // If login was successful, update basic state slices, used everywhere else in this application
+      //FIXME: delete after initializing state in App component
+      // dispatch(fetchPorts(true))
+      // dispatch(fetchBoats())
+      // dispatch(fetchBookings())
+
+      // Redirect user to homepage
+      navigate("/ports")
+
+      // TODO: redirect user to previous page
+    } catch (error) {
+      console.error("Error while trying to log in")
+    }
   }
 
   return (
