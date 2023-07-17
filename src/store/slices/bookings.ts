@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchBookings } from "../thunks/fetchBookings"
 import { createBooking } from "../thunks/createBooking"
+import { deleteBooking } from "../thunks/deleteBooking"
 
 export interface BookingInstance {
   id: string
@@ -64,6 +65,20 @@ export const bookingsSlice = createSlice({
       })
 
       .addCase(createBooking.rejected, (state) => {
+        state.status = "failed"
+      })
+
+      .addCase(deleteBooking.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.status = "idle"
+
+        state.bookings = state.bookings.filter(
+          (booking) => booking.id !== action.payload,
+        )
+      })
+      .addCase(deleteBooking.rejected, (state) => {
         state.status = "failed"
       })
   },

@@ -1,12 +1,20 @@
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { BoatInstance } from "../store/slices/boats"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { deleteBoat } from "../store/thunks/deleteBoat"
+import { useAppDispatch } from "../app/hooks"
 
 type componentProps = {
   boatsList: BoatInstance[]
 }
 
 function BoatsList({ boatsList }: componentProps) {
+  const dispatch = useAppDispatch()
+
+  const deleteSelectedBoat = (boatId: string) => {
+    dispatch(deleteBoat(boatId))
+  }
+
   return (
     <div className="flex flex-col min-w-full flex-wrap">
       <div className="overflow-x-auto">
@@ -112,6 +120,9 @@ function BoatsList({ boatsList }: componentProps) {
                                                             active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                         data-bs-toggle="modal"
                         data-bs-target="#confirmDeleteModal"
+                        onClick={(e) => {
+                          deleteSelectedBoat(boat.id)
+                        }}
                       >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>

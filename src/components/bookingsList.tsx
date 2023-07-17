@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { BookingInstance } from "../store/slices/bookings"
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons"
-import { useAppSelector } from "../app/hooks"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { deleteBooking } from "../store/thunks/deleteBooking"
 
 type componentProps = {
   bookingsList: BookingInstance[]
 }
 
 function BookingsList({ bookingsList }: componentProps) {
+  const dispatch = useAppDispatch()
   const ports = useAppSelector((state) => {
     return state.ports.ports
   })
@@ -39,6 +41,10 @@ function BookingsList({ bookingsList }: componentProps) {
 
     const boat = filteredBoats[0]
     return boat.name
+  }
+
+  const deleteSelectedBooking = (bookingId: string) => {
+    dispatch(deleteBooking(bookingId))
   }
 
   return (
@@ -120,6 +126,9 @@ function BookingsList({ bookingsList }: componentProps) {
                                                             active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                         data-bs-toggle="modal"
                         data-bs-target="#confirmDeleteModal"
+                        onClick={(e) => {
+                          deleteSelectedBooking(booking.id)
+                        }}
                       >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { fetchBoats } from "../thunks/fetchBoats"
 import { createBoat } from "../thunks/createBoat"
+import { deleteBoat } from "../thunks/deleteBoat"
 
 export interface BoatInstance {
   id: string
@@ -70,6 +71,19 @@ export const boatsSlice = createSlice({
         state.boats.push(newBoat)
       })
       .addCase(createBoat.rejected, (state) => {
+        state.status = "failed"
+      })
+
+      .addCase(deleteBoat.pending, (state) => {
+        state.status = "loading"
+      })
+
+      .addCase(deleteBoat.fulfilled, (state, action) => {
+        state.status = "idle"
+
+        state.boats = state.boats.filter((boat) => boat.id !== action.payload)
+      })
+      .addCase(deleteBoat.rejected, (state) => {
         state.status = "failed"
       })
   },
