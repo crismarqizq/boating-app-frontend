@@ -1,8 +1,27 @@
+import { useEffect, useState } from "react"
 import { useAppDispatch } from "../app/hooks"
+import { BoatInstance } from "../store/slices/boats"
 import { createBoat } from "../store/thunks/createBoat"
 import "./styles/BoatForm.css"
+import { editBoat } from "../store/thunks/editBoat"
 
-function BoatForm() {
+type componentProps = {
+  boatInfo: BoatInstance
+  onFinish: any
+  onDiscard: any
+}
+
+function BoatForm({ boatInfo, onFinish, onDiscard }: componentProps) {
+  const [isEditMode, setIsEditMode] = useState(false)
+  const [formValues, setFormValues] = useState({
+    name: "",
+    flag: "",
+    regNumber: "",
+    sail: false,
+    length: "",
+    beam: "",
+    draft: "",
+  } as any)
   const dispatch = useAppDispatch()
 
   const saveForm = (event: any) => {
@@ -21,8 +40,23 @@ function BoatForm() {
 
     const data = { name, flag, regNumber, sail, length, beam, draft }
 
-    dispatch(createBoat(data))
+    if (isEditMode) {
+      dispatch(editBoat({ id: boatInfo.id, ...data }))
+    } else {
+      dispatch(createBoat(data))
+    }
+
+    onFinish()
   }
+
+  useEffect(() => {
+    if (Object.keys(boatInfo).length) {
+      setIsEditMode(true)
+      setFormValues(boatInfo)
+    } else {
+      console.log("BoatForm mounted in create mode")
+    }
+  }, [boatInfo])
 
   return (
     <div className="flex justify-center min-w-full">
@@ -46,6 +80,7 @@ function BoatForm() {
                   id="nameInput"
                   name="boatName"
                   placeholder="Enter boat's name"
+                  defaultValue={formValues.name}
                 />
               </div>
               <div className="form-group mb-6">
@@ -63,6 +98,7 @@ function BoatForm() {
                   id="boatFlagInput"
                   name="flag"
                   placeholder="Registration flag"
+                  defaultValue={formValues.flag}
                 />
               </div>
               <div className="form-group mb-6">
@@ -80,6 +116,7 @@ function BoatForm() {
                   id="regNumberInput"
                   name="regNumber"
                   placeholder="Registration number"
+                  defaultValue={formValues.regNumber}
                 />
               </div>
               <div className="form-group mb-6">
@@ -96,6 +133,8 @@ function BoatForm() {
                     role="switch"
                     id="sailInput"
                     name="sail"
+                    defaultChecked={formValues.sail}
+                    disabled={isEditMode}
                   />
                 </div>
               </div>
@@ -118,6 +157,7 @@ function BoatForm() {
                   id="lengthInput"
                   name="length"
                   placeholder="Length in meters"
+                  defaultValue={formValues.length}
                 />
               </div>
               <div className="form-group mb-6">
@@ -138,6 +178,7 @@ function BoatForm() {
                   id="beamInput"
                   name="beam"
                   placeholder="Beam in meters"
+                  defaultValue={formValues.beam}
                 />
               </div>
               <div className="form-group mb-6">
@@ -157,20 +198,22 @@ function BoatForm() {
                   id="draftInput"
                   name="draft"
                   placeholder="Draft in meters"
+                  defaultValue={formValues.draft}
                 />
               </div>
             </div>
           </div>
 
           <div className="flex justify-end w-full">
-            {/* <button
+            <button
               type="button"
               className="px-6 py-2.5 bg-darkblue text-white font-medium text-xs leading-tight uppercase 
                             rounded shadow-md hover:shadow-lg focus:shadow-lg 
                             focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+              onClick={onDiscard}
             >
               Discard
-            </button> */}
+            </button>
             <button
               type="submit"
               className="px-6 py-2.5 ml-2 bg-midgreen text-white font-medium text-xs leading-tight uppercase 

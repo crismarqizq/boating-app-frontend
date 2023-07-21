@@ -1,8 +1,11 @@
 import { useAppDispatch, useAppSelector } from "../app/hooks"
-
 import { createBooking } from "../store/thunks/createBooking"
 
-function BookingForm() {
+type componentProps = {
+  onDiscard: any
+}
+
+function BookingForm({ onDiscard }: componentProps) {
   let startDate = new Date()
   let endDate = new Date()
 
@@ -158,6 +161,7 @@ function BookingForm() {
               className="px-6 py-2.5 bg-darkblue text-white font-medium text-xs leading-tight uppercase 
                             rounded shadow-md hover:shadow-lg focus:shadow-lg 
                             focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
+              onClick={onDiscard}
             >
               Discard
             </button>

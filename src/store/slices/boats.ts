@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { fetchBoats } from "../thunks/fetchBoats"
 import { createBoat } from "../thunks/createBoat"
 import { deleteBoat } from "../thunks/deleteBoat"
+import { editBoat } from "../thunks/editBoat"
 
 export interface BoatInstance {
   id: string
@@ -84,6 +85,30 @@ export const boatsSlice = createSlice({
         state.boats = state.boats.filter((boat) => boat.id !== action.payload)
       })
       .addCase(deleteBoat.rejected, (state) => {
+        state.status = "failed"
+      })
+
+      .addCase(editBoat.pending, (state) => {
+        state.status = "loading"
+      })
+
+      .addCase(editBoat.fulfilled, (state, action) => {
+        state.status = "idle"
+
+        const editedBoat = action.payload
+        const editedBoatId = editedBoat.id
+
+        // Find edited boat in current state
+        state.boats = state.boats.map((boat) => {
+          if (boat.id === editedBoatId) {
+            return editedBoat
+          } else {
+            return boat
+          }
+        })
+      })
+
+      .addCase(editBoat.rejected, (state) => {
         state.status = "failed"
       })
   },

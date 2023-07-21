@@ -6,13 +6,19 @@ import { useAppDispatch } from "../app/hooks"
 
 type componentProps = {
   boatsList: BoatInstance[]
+  onUpdateBoatRequest: any
 }
 
-function BoatsList({ boatsList }: componentProps) {
+function BoatsList({ boatsList, onUpdateBoatRequest }: componentProps) {
   const dispatch = useAppDispatch()
 
   const deleteSelectedBoat = (boatId: string) => {
     dispatch(deleteBoat(boatId))
+  }
+
+  const editSelectedBoat = (boatId: string) => {
+    console.log(boatId)
+    onUpdateBoatRequest(boatId)
   }
 
   return (
@@ -108,6 +114,7 @@ function BoatsList({ boatsList }: componentProps) {
                                                             hover:bg-blue-700 hover:shadow-lg
                                                             focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0
                                                             active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+                        onClick={(e) => editSelectedBoat(boat.id)}
                       >
                         <FontAwesomeIcon icon={faPenToSquare} />
                       </button>
