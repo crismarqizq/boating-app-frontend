@@ -21,17 +21,24 @@ function Bookings() {
   })
 
   const triggerNewBookingCreation = () => {
+    setEditableBookingInfo({} as BookingInstance)
     setIsBookingFormVisible(true)
   }
-  const hideForm = (event: any) => {
-    event.preventDefault()
+  const onFormFinish = () => {
     setIsBookingFormVisible(false)
-    setEditableBookingInfo(null)
+  }
+  const hideForm = (event: any) => {
+    setIsBookingFormVisible(false)
   }
 
   const onUpdateBookingRequest = (bookingId: string) => {
-    console.log("received update")
+    const bookingInfo = bookings.filter((booking) => booking.id === bookingId)
+    if (bookingInfo.length) {
+      setEditableBookingInfo(bookingInfo[0])
+      setIsBookingFormVisible(true)
+    }
   }
+
   useEffect(() => {
     if (boatsStatus === "idle" && portsStatus === "idle" && status === "idle") {
       setReadyToLoad(true)
@@ -66,7 +73,13 @@ function Bookings() {
             </div>
           )}
 
-          {isBookingFormVisible && <BookingForm onDiscard={hideForm} />}
+          {isBookingFormVisible && (
+            <BookingForm
+              bookingInfo={editableBookingInfo}
+              onFinish={onFormFinish}
+              onDiscard={hideForm}
+            />
+          )}
         </div>
       </div>
     </main>

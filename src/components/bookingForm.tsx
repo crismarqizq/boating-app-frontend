@@ -1,11 +1,17 @@
+import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { createBooking } from "../store/thunks/createBooking"
+import { editBooking } from "../store/thunks/editBooking"
 
 type componentProps = {
+  bookingInfo: any
+  onFinish: any
   onDiscard: any
 }
 
-function BookingForm({ onDiscard }: componentProps) {
+function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
+  const [isEditMode, setIsEditMode] = useState(false)
+
   let startDate = new Date()
   let endDate = new Date()
 
@@ -51,8 +57,25 @@ function BookingForm({ onDiscard }: componentProps) {
 
     const data = { startDate, endDate, boat, port }
 
-    dispatch(createBooking(data))
+    if (isEditMode) {
+      console.log("editing")
+      dispatch(editBooking({ id: bookingInfo.id, ...data }))
+    } else {
+      console.log("creating")
+
+      dispatch(createBooking(data))
+    }
+    onFinish()
   }
+  useEffect(() => {
+    if (Object.keys(bookingInfo).length) {
+      console.log("mounted component with booking info keys present")
+
+      setIsEditMode(true)
+    } else {
+      console.log("booking form mounted in create mode")
+    }
+  }, [bookingInfo])
 
   return (
     <div className="flex justify-center min-w-full">
