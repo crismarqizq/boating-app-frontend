@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import { BrowserRouter as Router } from "react-router-dom"
 import "./App.css"
 import Login from "./pages/Login"
+import Register from "./pages/register/Register"
 import Boats from "./pages/boats/Boats"
 import Bookings from "./pages/bookings/Bookings"
 import { useAppDispatch, useAppSelector } from "./app/hooks"
@@ -71,12 +72,12 @@ function App() {
             isAuthenticated ? <Navigate replace to="/ports" /> : <Login />
           }
         />
-        {/* <Route
+        <Route
           path="/register"
           element={
             isAuthenticated ? <Navigate replace to="/ports" /> : <Register />
           }
-        /> */}
+        />
       </Routes>
     </Router>
   )

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { authenticateUser } from "../thunks/authenticateUser"
 import axios from "axios"
+import { registerUser } from "../thunks/registerUser"
 
 export interface AuthInstance {
   info: { name: string; surname: string; email: string; id: string }
@@ -54,6 +55,26 @@ export const authSlice = createSlice({
         ] = `Bearer ${state.auth.token.value}`
       })
       .addCase(authenticateUser.rejected, (state) => {
+        state.status = "failed"
+        state.auth = null
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.status = "idle"
+        state.isAuthenticated = true
+        state.auth = {
+          info: action.payload.info,
+          token: { value: action.payload.token.value },
+        }
+
+        localStorage.setItem("authData", JSON.stringify(state.auth))
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${state.auth.token.value}`
+      })
+      .addCase(registerUser.rejected, (state) => {
         state.status = "failed"
         state.auth = null
       })
