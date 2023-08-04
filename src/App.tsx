@@ -1,14 +1,15 @@
 import { Navigate, Route, Routes } from "react-router-dom"
 import { BrowserRouter as Router } from "react-router-dom"
+import { useEffect } from "react"
 import "./App.css"
 import Login from "./pages/Login"
 import Register from "./pages/register/Register"
 import Boats from "./pages/boats/Boats"
 import Bookings from "./pages/bookings/Bookings"
+import Settings from "./pages/settings/Settings"
 import { useAppDispatch, useAppSelector } from "./app/hooks"
 import Dashboard from "./pages/layouts/dashboard"
 import PortsList from "./components/portsList"
-import { useEffect } from "react"
 import { fetchBoats } from "./store/thunks/fetchBoats"
 import { fetchPorts } from "./store/thunks/fetchPorts"
 import { fetchBookings } from "./store/thunks/fetchBookings"
@@ -59,12 +60,12 @@ function App() {
               isAuthenticated ? <Bookings /> : <Navigate replace to="/login" />
             }
           />
-          {/* <Route
+          <Route
             path="settings"
             element={
               isAuthenticated ? <Settings /> : <Navigate replace to="/login" />
             }
-          /> */}
+          />
         </Route>
         <Route
           path="/login"
