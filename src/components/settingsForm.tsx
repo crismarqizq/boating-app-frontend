@@ -1,11 +1,17 @@
 import updateUserSettings from "../API/updateUserSettings"
 import { useState } from "react"
+import Toast from "./ui/toast"
+import SuccessToast from "./ui/successToast"
 
 type componentProps = {
   userInfo: any
 }
 
 function SettingsForm({ userInfo }: componentProps) {
+  const [isToastActive, setIsToastActive] = useState(false)
+  const [toastMessage, setToastMessage] = useState(null)
+  const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
+  const [successToastMessage, setSuccessToastMessage] = useState(null)
   const getLocaleDate = (dateString: any) => {
     const dateValue = new Date(dateString)
     return dateValue.toLocaleDateString()
@@ -28,12 +34,43 @@ function SettingsForm({ userInfo }: componentProps) {
     }
     try {
       await updateUserSettings(userInfo._id, userFormInfo)
+      let successMessage = "Information updated succesfully"
+      setSuccessToastMessage(successMessage)
+      setIsSuccessToastActive(true)
     } catch (error) {
-      console.log("there was  an error")
+      if (error.response) {
+        // It's an AXIOS error
+        let reason = "Invalid request: "
+        if (error.response.status >= 500) {
+          reason = "Server error: "
+        }
+        const toastMessage = reason + error.response.data.message
+
+        setToastMessage(toastMessage)
+        setIsToastActive(true)
+      } else {
+        // Generic error
+        console.error("Generic error: ", error)
+        setToastMessage(error.message)
+        setIsToastActive(true)
+      }
     }
+  }
+  const closeToast = () => {
+    setIsToastActive(false)
+  }
+  const closeSuccessToast = () => {
+    setIsSuccessToastActive(false)
   }
   return (
     <div className="flex justify-center min-w-full">
+      {isToastActive && <Toast message={toastMessage} onClose={closeToast} />}
+      {isSuccessToastActive && (
+        <SuccessToast
+          message={successToastMessage}
+          onClose={closeSuccessToast}
+        />
+      )}
       <div className="block p-6 rounded-lg shadow-lg bg-white min-w-full">
         <form onSubmit={saveForm}>
           <div className="grid grid-cols-2 gap-4 ">
