@@ -2,7 +2,7 @@ import { useEffect } from "react"
 type componentProps = {
   message: any
   onClose: any
-  timeout: any
+  timeout?: any
 }
 
 function Toast({ message, onClose, timeout }: componentProps) {

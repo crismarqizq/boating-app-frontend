@@ -9,9 +9,9 @@ type componentProps = {
 
 function SettingsForm({ userInfo }: componentProps) {
   const [isToastActive, setIsToastActive] = useState(false)
-  const [toastMessage, setToastMessage] = useState(null)
+  const [toastMessage, setToastMessage] = useState("")
   const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
-  const [successToastMessage, setSuccessToastMessage] = useState(null)
+  const [successToastMessage, setSuccessToastMessage] = useState("")
   const getLocaleDate = (dateString: any) => {
     const dateValue = new Date(dateString)
     return dateValue.toLocaleDateString()
@@ -34,10 +34,10 @@ function SettingsForm({ userInfo }: componentProps) {
     }
     try {
       await updateUserSettings(userInfo._id, userFormInfo)
-      let successMessage = "Information updated succesfully"
+      let successMessage = "Information succesfully updated"
       setSuccessToastMessage(successMessage)
       setIsSuccessToastActive(true)
-    } catch (error) {
+    } catch (error: any) {
       if (error.response) {
         // It's an AXIOS error
         let reason = "Invalid request: "

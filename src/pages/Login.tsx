@@ -1,10 +1,12 @@
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../app/hooks"
 import { authenticateUser } from "../store/thunks/authenticateUser"
-import { fetchBoats } from "../store/thunks/fetchBoats"
-import { fetchBookings } from "../store/thunks/fetchBookings"
-import { fetchPorts } from "../store/thunks/fetchPorts"
+import Toast from "../components/ui/toast"
+import { useState } from "react"
+
 function Login() {
+  const [isToastActive, setIsToastActive] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -31,14 +33,20 @@ function Login() {
       navigate("/ports")
 
       // TODO: redirect user to previous page
-    } catch (error) {
+    } catch (error: any) {
+      setToastMessage("error")
+      setIsToastActive(true)
       console.error("Error while trying to log in")
     }
+  }
+  const closeToast = () => {
+    setIsToastActive(false)
   }
 
   return (
     <>
       <main className="h-screen w-screen flex flex-row items-center justify-center">
+        {isToastActive && <Toast message={toastMessage} onClose={closeToast} />}
         <div className="w-5/12 h-screen flex flex-col justify-center items-center bg-gray-800">
           <div className="block p-6 rounded-lg shadow-lg bg-bone max-w-sm">
             <form onSubmit={handleSubmit}>
@@ -113,6 +121,11 @@ function Login() {
               >
                 Sign in
               </button>
+              <span className="mr-1">
+                <Link to={"/register"} className="underline">
+                  Need an account?
+                </Link>
+              </span>
             </form>
           </div>
         </div>

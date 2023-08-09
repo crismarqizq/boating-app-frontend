@@ -69,10 +69,12 @@ function Port({ portInfo }: componentProps) {
               <ul className="text-midblue font-thin">
                 <li>
                   <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
+                  <span className="ml-1"></span>
                   {portInfo.weather?.temperature} ºC
                 </li>
                 <li>
                   <FontAwesomeIcon icon={faWind} />
+                  <span className="ml-1"></span>
                   {portInfo.weather?.windSpeed}
                   knots
                 </li>

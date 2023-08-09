@@ -4,6 +4,8 @@ import { BoatInstance } from "../store/slices/boats"
 import { createBoat } from "../store/thunks/createBoat"
 import "./styles/BoatForm.css"
 import { editBoat } from "../store/thunks/editBoat"
+import Toast from "./ui/toast"
+import SuccessToast from "./ui/successToast"
 
 type componentProps = {
   boatInfo: BoatInstance
@@ -12,6 +14,10 @@ type componentProps = {
 }
 
 function BoatForm({ boatInfo, onFinish, onDiscard }: componentProps) {
+  const [isToastActive, setIsToastActive] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
+  const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
+  const [successToastMessage, setSuccessToastMessage] = useState("")
   const [isEditMode, setIsEditMode] = useState(false)
   const [formValues, setFormValues] = useState({
     name: "",
@@ -42,8 +48,14 @@ function BoatForm({ boatInfo, onFinish, onDiscard }: componentProps) {
 
     if (isEditMode) {
       dispatch(editBoat({ id: boatInfo.id, ...data }))
+
+      setSuccessToastMessage("Boat information modified successfully")
+      setIsSuccessToastActive(true)
     } else {
       dispatch(createBoat(data))
+
+      setSuccessToastMessage("Boat added successfully")
+      setIsSuccessToastActive(true)
     }
 
     onFinish()
@@ -58,8 +70,22 @@ function BoatForm({ boatInfo, onFinish, onDiscard }: componentProps) {
     }
   }, [boatInfo])
 
+  const closeToast = () => {
+    setIsToastActive(false)
+  }
+  const closeSuccessToast = () => {
+    setIsSuccessToastActive(false)
+  }
+
   return (
     <div className="flex justify-center min-w-full">
+      {isToastActive && <Toast message={toastMessage} onClose={closeToast} />}
+      {isSuccessToastActive && (
+        <SuccessToast
+          message={successToastMessage}
+          onClose={closeSuccessToast}
+        />
+      )}
       <div className="block p-6 rounded-lg shadow-lg bg-white min-w-full">
         <form onSubmit={saveForm}>
           <div className="flex justify-center">

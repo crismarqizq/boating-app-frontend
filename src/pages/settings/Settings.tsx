@@ -17,6 +17,7 @@ function Settings() {
   return (
     <main className="w-screen min-h-screen bg-bone flex justify-center pt-10">
       <div className="w-11/12">
+        <h2 className="mb-4 font-bold text-xl">Settings</h2>
         {userInfo && <SettingsForm userInfo={userInfo}></SettingsForm>}
         {userInfo && (
           <div className="mt-10">

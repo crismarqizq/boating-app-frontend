@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../../app/hooks"
 import { registerUser } from "../../store/thunks/registerUser"
-
+import Toast from "../../components/ui/toast"
+import { useState } from "react"
 function Register() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const [isToastActive, setIsToastActive] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
@@ -41,12 +44,34 @@ function Register() {
     try {
       await dispatch(registerUser(registrationData))
       navigate("/ports")
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response) {
+        // It's an AXIOS error
+        let reason = "Invalid request: "
+        if (error.response.status >= 500) {
+          reason = "Server error: "
+        }
+        const toastMessage = reason + error.response.data.message
+
+        setToastMessage(toastMessage)
+        setIsToastActive(true)
+      } else {
+        // Generic error
+        console.error("Generic error: ", error)
+        setToastMessage(error.message)
+        setIsToastActive(true)
+      }
       console.log("error while registering user")
     }
   }
+  const closeToast = () => {
+    setIsToastActive(false)
+  }
   return (
     <main className="h-screen w-screen flex flex-row items-center justify-center">
+      {isToastActive && (
+        <Toast message={toastMessage} onClose={closeToast} /*timeout={6000}*/ />
+      )}
       <div className="w-5/12 h-screen flex flex-col justify-center items-center bg-gray-800">
         <div className="register-form bg-bone flex p-4">
           <div className="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
@@ -91,8 +116,11 @@ function Register() {
                   />
                 </div>
                 <div className="form-group mb-6">
+                  <label htmlFor="floatingInput" className="text-gray-700">
+                    Select your birthdate
+                  </label>
                   <div
-                    className="datepicker relative form-floating mb-3 xl:w-96"
+                    className="datepicker relative form-floating mb-3 xl:w-72"
                     data-mdb-toggle-button="false"
                   >
                     <input
@@ -102,9 +130,6 @@ function Register() {
                       placeholder="Select your birthdate"
                       data-mdb-toggle="datepicker"
                     />
-                    <label htmlFor="floatingInput" className="text-gray-700">
-                      Select your birthdate
-                    </label>
                   </div>
                 </div>
                 <div className="form-group mb-6">
@@ -183,21 +208,6 @@ function Register() {
                     placeholder="Min. 6 characters"
                   />
                 </div>
-
-                {/* <button
-                  type="button"
-                  className=" px-3 py-1.5 bg-midgreen text-bone w-full
-                                                            font-medium text-xs leading-tight uppercase rounded shadow-md
-                                                            hover:bg-blue-700 hover:shadow-lg"
-                >
-                  Next step
-                </button>
-
-                <div>
-                  <Link to="/login" className="underline">
-                    Already have an account?
-                  </Link>
-                </div> */}
               </>
 
               <>
@@ -298,6 +308,12 @@ function Register() {
                   >
                     Register
                   </button>
+                </div>
+
+                <div>
+                  <Link to="/login" className="underline">
+                    Already have an account?
+                  </Link>
                 </div>
               </>
             </form>

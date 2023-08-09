@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { createBooking } from "../store/thunks/createBooking"
 import { editBooking } from "../store/thunks/editBooking"
+import Toast from "./ui/toast"
+import SuccessToast from "./ui/successToast"
 
 type componentProps = {
   bookingInfo: any
@@ -11,6 +13,8 @@ type componentProps = {
 
 function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
   const [isEditMode, setIsEditMode] = useState(false)
+  const [isToastActive, setIsToastActive] = useState(false)
+  const [toastMessage, setToastMessage] = useState("")
 
   let startDate = new Date()
   let endDate = new Date()
@@ -32,6 +36,9 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
       console.log("Selected a valid start date")
       startDate = eventStartDate
     } else {
+      setToastMessage("Invalid starting date. Please select a future date")
+      setIsToastActive(true)
+      event.value = ""
       console.log("error uodating start date")
     }
   }
@@ -43,6 +50,9 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
       console.log("Selected a valid start date")
       endDate = eventEndDate
     } else {
+      setToastMessage("Invalid ending date. Please select a future date")
+      setIsToastActive(true)
+      event.value = ""
       console.log("error uodating start date")
     }
   }
@@ -76,9 +86,13 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
       console.log("booking form mounted in create mode")
     }
   }, [bookingInfo])
+  const closeToast = () => {
+    setIsToastActive(false)
+  }
 
   return (
     <div className="flex justify-center min-w-full">
+      {isToastActive && <Toast message={toastMessage} onClose={closeToast} />}
       <div className="block p-6 rounded-lg shadow-lg bg-white min-w-full">
         <form onSubmit={saveForm}>
           <div className="flex justify-center">

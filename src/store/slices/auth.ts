@@ -35,7 +35,15 @@ if (authDataString) {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      localStorage.removeItem("authData")
+      state.auth = null
+      state.isAuthenticated = false
+      state.status = "idle"
+      axios.defaults.headers.common["Authorization"] = null
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(authenticateUser.pending, (state) => {
@@ -82,3 +90,4 @@ export const authSlice = createSlice({
 })
 
 export default authSlice.reducer
+export const { logout } = authSlice.actions

@@ -11,6 +11,9 @@ function Boats() {
   const { boats, status } = useAppSelector((state) => {
     return state.boats
   })
+  const { auth } = useAppSelector((state) => {
+    return state.auth
+  })
 
   const [isBoatFormVisible, setisBoatFormVisible] = useState(false)
   const [editableBoatInfo, setEditableBoatInfo] = useState({} as BoatInstance)
@@ -44,7 +47,7 @@ function Boats() {
       <div className="flex flex-col items-center w-11/12">
         <div className="w-full">
           <h2 className="mb-4 font-bold text-xl">Your boats</h2>
-          <div className="grid gap-10 grid-cols-3 p-4">
+          <div>
             {status === "failed" && <div>There was an error</div>}
             {status === "loading" && <div>Loading...</div>}
             {boats.length ? (
@@ -54,7 +57,8 @@ function Boats() {
               ></BoatsList>
             ) : (
               <div className="mb-4 font-medium">
-                You have no boats. Start adding your first boat
+                {auth?.info.name}, you have no boats on your list. Start adding
+                your first boat.
               </div>
             )}
           </div>

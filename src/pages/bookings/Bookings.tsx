@@ -11,6 +11,9 @@ function Bookings() {
   const [editableBookingInfo, setEditableBookingInfo] = useState(
     {} as BookingInstance,
   )
+  const { auth } = useAppSelector((state) => {
+    return state.auth
+  })
 
   const { bookings, status } = useAppSelector((state) => {
     return state.bookings
@@ -50,6 +53,9 @@ function Bookings() {
       <div className="flex flex-col items-center w-11/12">
         <div className="w-full">
           <h2 className="mb-4 font-bold text-xl"> Your bookings</h2>
+          <div className="mb-4 font-medium">
+            {auth?.info.name}, where are you planning your next travel to?
+          </div>
           {!readyToLoad && <div>Loading...</div>}
           {readyToLoad && (
             <BookingsList
