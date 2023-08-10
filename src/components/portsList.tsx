@@ -27,7 +27,7 @@ function PortsList() {
         </div>
       )}
       <div className="grid gap-10 grid-cols-3 p-4">
-        {ports.length &&
+        {status === "idle" &&
           ports.map((port) => <Port key={port._id} portInfo={port}></Port>)}
       </div>
     </div>

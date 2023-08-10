@@ -1,10 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faGear,
-  faRightFromBracket,
-  faUser,
-  faWater,
-} from "@fortawesome/free-solid-svg-icons"
+import { faRightFromBracket, faWater } from "@fortawesome/free-solid-svg-icons"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { Link, useNavigate } from "react-router-dom"
 import { logout } from "../store/slices/auth"
@@ -48,7 +43,11 @@ function Navbar() {
             </Link>
           </li>
         </ul>
-        <div>{status === "idle" && <div>Hello {auth?.info.name}</div>}</div>
+        <div>
+          {status === "idle" && (
+            <div className="font-bold">Hello {auth?.info.name}</div>
+          )}
+        </div>
 
         <div className="flex justify-center">
           <div></div>

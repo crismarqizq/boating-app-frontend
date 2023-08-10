@@ -6,12 +6,14 @@ import {
   faWind,
 } from "@fortawesome/free-solid-svg-icons"
 import PortFacilities from "./portFacilities"
+import { useNavigate } from "react-router-dom"
 
 type componentProps = {
   portInfo: PortInstance
 }
 
 function Port({ portInfo }: componentProps) {
+  const navigate = useNavigate()
   function convertToDms(dd: number, isLng: boolean) {
     var dir = dd < 0 ? (isLng ? "W" : "S") : isLng ? "E" : "N"
 
@@ -23,6 +25,9 @@ function Port({ portInfo }: componentProps) {
     // Round it to 2 decimal points.
     sec = Math.round(sec * 100) / 100
     return deg + "°" + min + "'" + sec + '"' + dir
+  }
+  function createNewBooking() {
+    navigate("/bookings")
   }
 
   return (
@@ -76,6 +81,7 @@ function Port({ portInfo }: componentProps) {
                   <FontAwesomeIcon icon={faWind} />
                   <span className="ml-1"></span>
                   {portInfo.weather?.windSpeed}
+                  <span className="ml-1"></span>
                   knots
                 </li>
                 <li>
@@ -99,7 +105,10 @@ function Port({ portInfo }: componentProps) {
           </div>
         </div>
         <div className="justify-self-end">
-          <button className="bg-midgreen text-white text-md p-2 w-full ">
+          <button
+            onClick={createNewBooking}
+            className="bg-midgreen text-white text-md p-2 w-full "
+          >
             Book now
           </button>
         </div>
