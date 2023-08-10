@@ -31,7 +31,7 @@ function Port({ portInfo }: componentProps) {
   }
 
   return (
-    <div className="flex flex-col  bg-white font-sans shadow-md">
+    <div className="flex flex-col  bg-white font-sans shadow-2xl">
       <div
         className="h-60 bg-cover bg-center"
         style={{ backgroundImage: `url(${portInfo.imagePath})` }}
@@ -99,7 +99,7 @@ function Port({ portInfo }: componentProps) {
               </ul>
             </div>
           </div>
-          <div>
+          <div className="flex flex-col items-center">
             <span className="text-midblue font-semibold">Facilities</span>
             <PortFacilities extended={false} facilities={portInfo.facilities} />
           </div>

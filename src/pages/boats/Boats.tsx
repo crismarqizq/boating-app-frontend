@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { fetchBoats } from "../../store/thunks/fetchBoats"
+import { useState } from "react"
+import { useAppSelector } from "../../app/hooks"
 import BoatsList from "../../components/boatsList"
 import BoatForm from "../../components/boatForm"
 import { BoatInstance } from "../../store/slices/boats"
+import SuccessToast from "../../components/ui/successToast"
 
 function Boats() {
-  // const dispatch = useAppDispatch()
-
+  const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
+  const [successToastMessage, setSuccessToastMessage] = useState("")
   const { boats, status } = useAppSelector((state) => {
     return state.boats
   })
@@ -33,14 +33,16 @@ function Boats() {
 
   const onFormFinish = () => {
     setisBoatFormVisible(false)
+    let successMessage = "Boats updated succesfully"
+    setSuccessToastMessage(successMessage)
+    setIsSuccessToastActive(true)
   }
   const hideForm = (event: any) => {
     setisBoatFormVisible(false)
   }
-
-  // useEffect(() => {
-  //   dispatch(fetchBoats())
-  // }, [dispatch])
+  const closeSuccessToast = () => {
+    setIsSuccessToastActive(false)
+  }
 
   return (
     <main className="w-screen min-h-screen bg-bone pt-10 flex justify-center">
@@ -62,6 +64,12 @@ function Boats() {
               </div>
             )}
           </div>
+          {isSuccessToastActive && (
+            <SuccessToast
+              message={successToastMessage}
+              onClose={closeSuccessToast}
+            />
+          )}
 
           {!isBoatFormVisible && (
             <div className="flex w-full justify-end">

@@ -6,7 +6,7 @@ import { useState } from "react"
 
 function Login() {
   const [isToastActive, setIsToastActive] = useState(false)
-  const [toastMessage, setToastMessage] = useState("")
+  const [toastMessage, setToastMessage] = useState(null)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -31,10 +31,8 @@ function Login() {
 
       // Redirect user to homepage
       navigate("/ports")
-
-      // TODO: redirect user to previous page
     } catch (error: any) {
-      setToastMessage("error")
+      setToastMessage(error.message)
       setIsToastActive(true)
       console.error("Error while trying to log in")
     }

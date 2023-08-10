@@ -1,13 +1,15 @@
 import { useAppSelector } from "../../app/hooks"
 import BookingsList from "../../components/bookingsList"
-
 import BookingForm from "../../components/bookingForm"
 import { useEffect, useState } from "react"
 import { BookingInstance } from "../../store/slices/bookings"
+import SuccessToast from "../../components/ui/successToast"
 
 function Bookings() {
   const [readyToLoad, setReadyToLoad] = useState(false)
   const [isBookingFormVisible, setIsBookingFormVisible] = useState(false)
+  const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
+  const [successToastMessage, setSuccessToastMessage] = useState("")
   const [editableBookingInfo, setEditableBookingInfo] = useState(
     {} as BookingInstance,
   )
@@ -29,9 +31,15 @@ function Bookings() {
   }
   const onFormFinish = () => {
     setIsBookingFormVisible(false)
+    let successMessage = "Bookings updated succesfully"
+    setSuccessToastMessage(successMessage)
+    setIsSuccessToastActive(true)
   }
   const hideForm = (event: any) => {
     setIsBookingFormVisible(false)
+  }
+  const closeSuccessToast = () => {
+    setIsSuccessToastActive(false)
   }
 
   const onUpdateBookingRequest = (bookingId: string) => {
@@ -64,6 +72,12 @@ function Bookings() {
             ></BookingsList>
           )}
         </div>
+        {isSuccessToastActive && (
+          <SuccessToast
+            message={successToastMessage}
+            onClose={closeSuccessToast}
+          />
+        )}
 
         <div className="flex w-11/12 my-10">
           {!isBookingFormVisible && (

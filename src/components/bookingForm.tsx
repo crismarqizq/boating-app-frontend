@@ -3,10 +3,10 @@ import { useAppDispatch, useAppSelector } from "../app/hooks"
 import { createBooking } from "../store/thunks/createBooking"
 import { editBooking } from "../store/thunks/editBooking"
 import Toast from "./ui/toast"
-import SuccessToast from "./ui/successToast"
+import { BookingInstance } from "../store/slices/bookings"
 
 type componentProps = {
-  bookingInfo: any
+  bookingInfo: BookingInstance
   onFinish: any
   onDiscard: any
 }
@@ -110,6 +110,7 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
                     className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Select a date"
                     data-mdb-toggle="datepicker"
+                    defaultValue={bookingInfo ? bookingInfo.startDate : ""}
                     onChange={(e) => {
                       updateStartDate(e.target)
                     }}
@@ -129,6 +130,7 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
                     className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     placeholder="Select a date"
                     data-mdb-toggle="datepicker"
+                    defaultValue={bookingInfo ? bookingInfo.endDate : ""}
                     onChange={(e) => {
                       updateEndDate(e.target)
                     }}
@@ -152,6 +154,7 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
                   id="portInput"
                   name="port"
                   aria-label="Port selector"
+                  defaultValue={bookingInfo ? bookingInfo.port : ""}
                 >
                   {ports.map((port) => (
                     <option key={port._id} value={port._id}>
@@ -180,6 +183,7 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
                   id="userBoatInput"
                   name="boat"
                   aria-label="Boat selector"
+                  defaultValue={bookingInfo ? bookingInfo.boat : ""}
                 >
                   {boats.map((boat) => (
                     <option key={boat.id} value={boat.id}>
@@ -208,7 +212,7 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
                             rounded shadow-md hover:shadow-lg focus:shadow-lg 
                             focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out"
             >
-              Save/Add
+              {bookingInfo ? "Save changes" : "Confirm booking"}
             </button>
           </div>
         </form>
