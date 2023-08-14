@@ -49,8 +49,6 @@ function SettingsForm({ userInfo }: componentProps) {
         setToastMessage(toastMessage)
         setIsToastActive(true)
       } else {
-        // Generic error
-        console.error("Generic error: ", error)
         setToastMessage(error.message)
         setIsToastActive(true)
       }

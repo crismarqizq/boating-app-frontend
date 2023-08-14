@@ -8,9 +8,9 @@ type componentProps = {
 }
 function PasswordUpdater({ userInfo }: componentProps) {
   const [isToastActive, setIsToastActive] = useState(false)
-  const [toastMessage, setToastMessage] = useState(null)
+  const [toastMessage, setToastMessage] = useState("")
   const [isSuccessToastActive, setIsSuccessToastActive] = useState(false)
-  const [successToastMessage, setSuccessToastMessage] = useState(null)
+  const [successToastMessage, setSuccessToastMessage] = useState("")
 
   const savePassword = async (event: any) => {
     event.preventDefault()
@@ -32,12 +32,10 @@ function PasswordUpdater({ userInfo }: componentProps) {
       setToastMessage("Passwords don't match")
       setIsToastActive(true)
 
-      // error toast
-
       console.log("password dont match")
       return
     }
-    // if everything ok call api and change password
+
     const modifications = {
       password: firstPassword,
     }

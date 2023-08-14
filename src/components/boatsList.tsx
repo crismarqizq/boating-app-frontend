@@ -17,7 +17,6 @@ function BoatsList({ boatsList, onUpdateBoatRequest }: componentProps) {
   }
 
   const editSelectedBoat = (boatId: string) => {
-    console.log(boatId)
     onUpdateBoatRequest(boatId)
   }
 

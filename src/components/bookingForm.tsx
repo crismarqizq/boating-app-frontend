@@ -33,13 +33,11 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
     const eventStartDate = new Date(event.value)
 
     if (eventStartDate.getTime() > startDate.getTime()) {
-      console.log("Selected a valid start date")
       startDate = eventStartDate
     } else {
       setToastMessage("Invalid starting date. Please select a future date")
       setIsToastActive(true)
       event.value = ""
-      console.log("error uodating start date")
     }
   }
 
@@ -47,13 +45,11 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
     const eventEndDate = new Date(event.value)
 
     if (eventEndDate.getTime() > startDate.getTime()) {
-      console.log("Selected a valid start date")
       endDate = eventEndDate
     } else {
       setToastMessage("Invalid ending date. Please select a future date")
       setIsToastActive(true)
       event.value = ""
-      console.log("error uodating start date")
     }
   }
 
@@ -79,8 +75,6 @@ function BookingForm({ bookingInfo, onFinish, onDiscard }: componentProps) {
   }
   useEffect(() => {
     if (Object.keys(bookingInfo).length) {
-      console.log("mounted component with booking info keys present")
-
       setIsEditMode(true)
     } else {
       console.log("booking form mounted in create mode")

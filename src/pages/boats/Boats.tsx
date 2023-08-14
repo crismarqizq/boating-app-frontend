@@ -23,7 +23,6 @@ function Boats() {
   }
 
   const onUpdateBoatRequest = (boatId: string) => {
-    console.log("Received update event for boat", boatId)
     const boatInfo = boats.filter((boat) => boat.id === boatId)
     if (boatInfo.length) {
       setEditableBoatInfo(boatInfo[0])
